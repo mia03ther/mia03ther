@@ -155,8 +155,8 @@ I can move between code, research, content and community without losing the tech
 
 <table>
 <tr>
-<td align="center"><h2>600+</h2><sub>X FOLLOWERS</sub></td>
-<td align="center"><h2>~600K</h2><sub>PEAK POST IMPRESSIONS</sub></td>
+<td align="center"><h2>1k+</h2><sub>X FOLLOWERS</sub></td>
+<td align="center"><h2>~900K</h2><sub>PEAK POST IMPRESSIONS</sub></td>
 <td align="center"><h2>ETHOnline<br/>2026</h2><sub>BUILDER</sub></td>
 <td align="center"><h2>17</h2><sub>PUBLIC REPOSITORIES</sub></td>
 </tr>
