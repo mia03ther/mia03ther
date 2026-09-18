@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 140" role="img" aria-labelledby="title desc">
+  <title id="title">Keep building</title>
+  <desc id="desc">A minimal terminal footer with a cyan cursor line.</desc>
+  <rect width="1200" height="140" rx="10" fill="#0b0d10" stroke="#303740"/>
+  <path d="M38 100H1162" stroke="#20262d"/>
+  <text x="40" y="48" fill="#7d8792" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12">NEXT_SIGNAL / 2026 →</text>
+  <text x="40" y="82" fill="#f5f2ea" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700">KEEP BUILDING.</text>
+  <rect x="265" y="62" width="10" height="24" fill="#63f3e4"/>
+  <circle cx="1128" cy="40" r="5" fill="#b7f36b"/><circle cx="1148" cy="40" r="5" fill="#b58cff"/><circle cx="1168" cy="40" r="5" fill="#63f3e4"/>
+</svg>
