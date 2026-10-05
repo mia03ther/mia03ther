@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-labelledby="t d">
+<title id="t">BUILD ACTIVITY · LAST 12 WEEKS</title>
+<desc id="d">Line chart of weekly build activity over the last 12 weeks, 12-week total 97, source public events (REST).</desc>
+<defs>
+<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#1d252b" stroke-width="1"/></pattern>
+<linearGradient id="sig" x1="0" x2="1"><stop offset="0" stop-color="#63f3e4"/><stop offset="1" stop-color="#b58cff"/></linearGradient>
+</defs>
+<rect width="1200" height="400" rx="10" fill="#0b0d10"/>
+<rect x="1" y="1" width="1198" height="398" rx="9" fill="url(#grid)" stroke="#303740"/>
+<text x="42" y="44" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#7d8792" font-weight="400" letter-spacing="2">BUILD ACTIVITY · LAST 12 WEEKS</text>
+<text x="1158" y="44" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#b58cff" font-weight="400" text-anchor="end">SYSTEM / 03</text>
+<path d="M42 62H1158" stroke="#20262d"/>
+<text x="42" y="376" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#7d8792" font-weight="400">GENERATED 2026-10-05 08:58 UTC</text>
+<text x="42" y="86" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#7d8792" font-weight="400">SOURCE public events (REST) · 12-WEEK TOTAL 97</text>
+<path d="M96 300.0H1158" stroke="#20262d"/>
+<text x="82" y="304.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#7d8792" font-weight="400" text-anchor="end">0</text>
+<path d="M96 254.5H1158" stroke="#20262d"/>
+<text x="82" y="258.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#7d8792" font-weight="400" text-anchor="end">10</text>
+<path d="M96 209.0H1158" stroke="#20262d"/>
+<text x="82" y="213.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#7d8792" font-weight="400" text-anchor="end">20</text>
+<path d="M96 163.5H1158" stroke="#20262d"/>
+<text x="82" y="167.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#7d8792" font-weight="400" text-anchor="end">30</text>
+<path d="M96 118.0H1158" stroke="#20262d"/>
+<text x="82" y="122.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#7d8792" font-weight="400" text-anchor="end">40</text>
+<path d="M96.0 300L96.0 300.0L192.55 300.0L289.09 300.0L385.64 300.0L482.18 300.0L578.73 300.0L675.27 268.15L771.82 131.65L868.36 254.5L964.91 254.5L1061.45 154.4L1158.0 295.45L1158.0 300Z" fill="#63f3e4" fill-opacity="0.06"/>
+<path d="M96.0 300.0L192.55 300.0L289.09 300.0L385.64 300.0L482.18 300.0L578.73 300.0L675.27 268.15L771.82 131.65L868.36 254.5L964.91 254.5L1061.45 154.4L1158.0 295.45" fill="none" stroke="url(#sig)" stroke-width="2.5" stroke-linejoin="round"/>
+<circle cx="96.0" cy="300.0" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="120" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Jul 20</text>
+<circle cx="192.55" cy="300.0" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="192.55" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Jul 27</text>
+<circle cx="289.09" cy="300.0" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="289.09" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Aug 03</text>
+<circle cx="385.64" cy="300.0" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="385.64" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Aug 10</text>
+<circle cx="482.18" cy="300.0" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="482.18" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Aug 17</text>
+<circle cx="578.73" cy="300.0" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="578.73" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Aug 24</text>
+<circle cx="675.27" cy="268.15" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="675.27" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Aug 31</text>
+<circle cx="771.82" cy="131.65" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="771.82" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Sep 07</text>
+<circle cx="868.36" cy="254.5" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="868.36" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Sep 14</text>
+<circle cx="964.91" cy="254.5" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="964.91" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Sep 21</text>
+<circle cx="1061.45" cy="154.4" r="3.5" fill="#0b0d10" stroke="#63f3e4" stroke-width="2"/>
+<text x="1061.45" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Sep 28</text>
+<circle cx="1158.0" cy="295.45" r="3.5" fill="#0b0d10" stroke="#b7f36b" stroke-width="2"/>
+<text x="1134" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#7d8792" font-weight="400" text-anchor="middle">Oct 05</text>
+<text x="1158.0" y="281.45" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#b7f36b" font-weight="700" text-anchor="middle">1</text>
+<text x="96" y="372" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#7d8792" font-weight="400" letter-spacing="2">OLDEST</text>
+<text x="1158" y="372" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#7d8792" font-weight="400" letter-spacing="2" text-anchor="end">LATEST</text>
+</svg>
