@@ -10,209 +10,191 @@
 
 > Building at the intersection of AI, Web3, Data & Finance.
 
-<a href="https://github.com/mia03ther"><kbd>GitHub</kbd></a>
-<a href="https://x.com/MIA03ther"><kbd>X</kbd></a>
-<a href="https://mia03ther.github.io/"><kbd>Portfolio</kbd></a>
-<a href="mailto:mia03ther@gmail.com"><kbd>Email</kbd></a>
+<a href="https://github.com/mia03ther"><kbd>GitHub</kbd></a> <a href="https://x.com/MIA03ther"><kbd>X</kbd></a> <a href="https://mia03ther.github.io/"><kbd>Portfolio</kbd></a> <a href="mailto:mia03ther@gmail.com"><kbd>Email</kbd></a>
 
-### CURRENT SIGNAL
+### CURRENT FOCUS
 
-`AI AGENTS` &nbsp; `MCP` &nbsp; `ON-CHAIN DATA` &nbsp; `WEB3` &nbsp; `DATA` &nbsp; `FINANCE`
+`AI AGENTS`   `MCP`   `ON-CHAIN DATA`   `WEB3`   `DATA`   `FINANCE`
 
-<sub>Guangzhou, China · GDUFS · Open to internships, remote collaboration & builder opportunities</sub>
+<sub>Guangzhou, China · Open to internships, remote collaboration & builder opportunities</sub>
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-## QUICK NAVIGATION
-
-`[01]` [WHO](#who-is-mia_ether) &nbsp; `[02]` [PROOF OF WORK](#proof-of-work) &nbsp; `[03]` [BUILDS](#selected-builds)<br/>
-`[04]` [CAPABILITIES](#what-i-can-actually-do) &nbsp; ` [05]` [EDGE](#the-hybrid-edge) &nbsp; ` [06]` [CONTACT](#lets-build)
+---
 
 ## WHO IS MIA_Ether?
 
-<table>
-<tr>
-<td width="25%"><code>ROLE</code></td>
-<td>Builder / Researcher / Operator</td>
-</tr>
-<tr>
-<td><code>DOMAIN</code></td>
-<td>AI / Web3 / Data / Finance</td>
-</tr>
-<tr>
-<td><code>STYLE</code></td>
-<td>Build / Research / Ship / Document</td>
-</tr>
-<tr>
-<td><code>EDGE</code></td>
-<td>Technical + Content + Community</td>
-</tr>
-</table>
+I build at the intersection of **technical systems, emerging protocols, data, and public communication**.
 
-I build at the intersection of technical systems, emerging protocols, and public communication.
+My work sits across:
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`BUILD` · `RESEARCH` · `SHIP` · `DOCUMENT`
+
+**Core domains**
+
+`AI` · `Web3` · `Data` · `Finance`
+
+**Working style**
+
+Technical + Research + Content + Community
+
+---
 
 ## PROOF OF WORK
 
-<table>
-<tr>
-<td width="58%">
-<sub>FEATURED BUILD · ETHONLINE 2026</sub><br/>
-<h2>ARBITERA</h2>
-<b>AI-operated Escrow Court & Agent Reputation Protocol</b><br/><br/>
-An agent-facing trust layer: query reputation, lock funds, evaluate a deliverable, then turn the settlement into future reputation.
-</td>
-<td width="42%">
-<code>AI JUDGE</code><br/>
-structured evaluation for escrow decisions<br/><br/>
-<code>MCP</code><br/>
-agent-facing tool interface<br/><br/>
-<code>THE GRAPH</code><br/>
-on-chain reputation / data querying<br/><br/>
-<code>ESCROW → REPUTATION</code>
-</td>
-</tr>
-</table>
+### ARBITERA
 
-<img src="./assets/arbitera.svg" alt="Arbitera system flow" width="100%" />
+**AI-operated Escrow Court & Agent Reputation Protocol**
+
+An agent-facing trust layer that connects:
+
+`REPUTATION` → `ESCROW` → `AI EVALUATION` → `SETTLEMENT` → `REPUTATION`
 
 ### MY ROLE
 
-**AI Judge & Backend Contributor** — contributing to the judge logic, backend flows, MCP reputation layer, and verification path inside the async GitHub collaboration.
+**AI Judge & Backend Contributor**
+
+Contributed to the AI judge logic, backend flows, MCP reputation layer, and verification path through async GitHub collaboration.
 
 ### CONTRIBUTION SURFACE
 
-`AI Judge logic` · `deterministic PASS / FAIL` · `verdictReasoningHash`<br/>
-`/api/judge` · `/api/judge-and-settle` · `MCP + The Graph reputation flows`<br/>
+`AI Judge logic` · `deterministic PASS / FAIL` · `verdictReasoningHash`
+
+`/api/judge` · `/api/judge-and-settle`
+
+`MCP + The Graph reputation flows`
+
 `Subgraph / Arc Testnet validation` · `Prisma persistence` · `API checks` · `debugging` · `tests`
+
+### STACK
 
 `TypeScript` `Node.js` `Prisma` `MCP` `LLM` `The Graph` `EVM` `Arc`
 
-[GitHub →](https://github.com/Ali-Adel-Nour/Arbitera) · `Demo: reproducible local flow in the repository`
+<img src="./assets/arbitera.svg" alt="Arbitera system flow" width="100%" />
 
-> This is a contribution record, not a founder claim. The system is interesting because it makes AI evaluation inspectable and useful to agents.
+[GitHub →](https://github.com/Ali-Adel-Nour/Arbitera)
+
+> Contribution record, not a founder claim.
+
+---
 
 ## SELECTED BUILDS
 
 ### `01 /` ARBITERA
 
-**Problem** — autonomous agents need a safer way to decide who to hire and when to settle.<br/>
-**Build** — AI Judge + escrow + MCP reputation workflow.<br/>
-**Stack** — TypeScript · Prisma · The Graph · EVM.<br/>
-**Evidence** — ETHOnline 2026 build; APIs, tests, persistence, and validation flows.
+**AI-operated Escrow Court & Agent Reputation Protocol**
 
-[Repository](https://github.com/Ali-Adel-Nour/Arbitera)
+AI Judge + escrow + MCP reputation workflow for autonomous agents.
 
-### `02 /` [PC BUILD CONFIG GENERATOR](https://github.com/mia03ther/pc-build-config-generator)
+`TypeScript` `Prisma` `MCP` `The Graph` `EVM`
 
-**Problem** — PC buying advice is fragmented across major, budget, and device constraints.<br/>
-**Build** — an open-source CLI that turns those inputs into practical recommendations.<br/>
-**Stack** — Python · standard library · tests · CI.<br/>
-**Evidence** — public repository with docs, contributing flow, tests, and roadmap.
+[Repository →](https://github.com/Ali-Adel-Nour/Arbitera)
 
-### `03 /` [MYTRADINGCHATSUMMARY](https://github.com/mia03ther/MyTradingChatSummary)
+### `02 /` PC BUILD CONFIG GENERATOR
 
-**Problem** — exported chat data is noisy, long, and difficult to revisit.<br/>
-**Build** — local processing pipeline for parsing, chunking, summarising, and exporting research notes.<br/>
-**Stack** — Python · Ollama · Qwen · HTML parsing · local processing.<br/>
-**Evidence** — local AI workflow for finance-oriented chat analysis; no data upload by default.
+An open-source CLI for turning budget, component, and device constraints into practical PC recommendations.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`Python` `CLI` `Testing` `CI`
 
-## WHAT I CAN ACTUALLY DO
+[Repository →](https://github.com/mia03ther/pc-build-config-generator)
 
-<table>
-<tr><td width="18%"><code>BUILD</code></td><td>Python · TypeScript · REST API · Git · Docker · Prisma</td></tr>
-<tr><td><code>DESIGN SYSTEMS</code></td><td>AI Agents · MCP · LLM workflows</td></tr>
-<tr><td><code>WORK WITH DATA</code></td><td>SQL · Data Analysis · On-chain Data</td></tr>
-<tr><td><code>WORK WITH WEB3</code></td><td>EVM · Ethereum · Solidity · Smart Contracts · Escrow · The Graph</td></tr>
-<tr><td><code>COMMUNICATE</code></td><td>Technical Writing · Documentation · Bilingual Content</td></tr>
-<tr><td><code>OPERATE</code></td><td>Community · Campaign · Developer Ecosystem · Events</td></tr>
-</table>
+### `03 /` MYTRADINGCHATSUMMARY
+
+A local AI workflow for parsing, chunking, summarising, and exporting finance-oriented chat data into research notes.
+
+`Python` `Ollama` `Qwen` `HTML Parsing` `Local AI`
+
+[Repository →](https://github.com/mia03ther/MyTradingChatSummary)
+
+---
+
+## WHAT I BUILD WITH
+
+| AREA      | TOOLS / SYSTEMS                                                  |
+| --------- | ---------------------------------------------------------------- |
+| BUILD     | Python · TypeScript · REST API · Git · Docker · Prisma           |
+| AI        | AI Agents · MCP · LLM workflows                                  |
+| DATA      | SQL · Data Analysis · On-chain Data                              |
+| WEB3      | EVM · Ethereum · Solidity · Smart Contracts · Escrow · The Graph |
+| CONTENT   | Technical Writing · Documentation · Bilingual Content            |
+| COMMUNITY | Developer Ecosystems · Community · Events                        |
+
+---
 
 ## THE HYBRID EDGE
 
 <img src="./assets/hybrid-edge.svg" alt="Code, content, and community converging into AI Web3 Data" width="100%" />
 
-I can move between code, research, content and community without losing the technical context.
+I move between **code, research, content, and community** without losing the technical context.
 
-## HOW I WORK
+```text
+RESEARCH → BUILD → VALIDATE → SHIP
+```
 
-<table>
-<tr>
-<td align="center"><code>01</code><br/><b>RESEARCH</b><br/><sub>Read docs, repos, protocols, data.</sub></td>
-<td align="center">→</td>
-<td align="center"><code>02</code><br/><b>BUILD</b><br/><sub>Prototype with code and AI-assisted workflows.</sub></td>
-<td align="center">→</td>
-<td align="center"><code>03</code><br/><b>VALIDATE</b><br/><sub>Test real flows, data, APIs and assumptions.</sub></td>
-<td align="center">→</td>
-<td align="center"><code>04</code><br/><b>SHIP</b><br/><sub>Document, publish, iterate.</sub></td>
-</tr>
-</table>
+I use GitHub, X, and public documentation to make technical work visible, understandable, and open to collaboration.
+
+---
 
 ## SELECTED SIGNALS
 
-<table>
-<tr>
-<td align="center"><h2>1k+</h2><sub>X FOLLOWERS</sub></td>
-<td align="center"><h2>~900K</h2><sub>PEAK POST IMPRESSIONS</sub></td>
-<td align="center"><h2>ETHOnline<br/>2026</h2><sub>BUILDER</sub></td>
-<td align="center"><h2>17</h2><sub>PUBLIC REPOSITORIES</sub></td>
-</tr>
-</table>
+| SIGNAL      |                        |
+| ----------- | ---------------------- |
+| X           | 1K+ followers          |
+| Peak Post   | ~900K impressions      |
+| Hackathon   | ETHOnline 2026         |
+| Open Source | Public GitHub projects |
+
+---
 
 ## PUBLIC WORK
 
-`Blockchain Security` · `AI Agent Wallets` · `Web3 Infrastructure`<br/>
-`AI × Finance` · `On-chain Data`
+`Blockchain Security` · `AI Agent Wallets` · `Web3 Infrastructure`
 
-```text
-RESEARCH  →  TRANSLATE  →  PUBLISH  →  ENGAGE
-```
+`AI × Finance` · `On-chain Data` · `Developer Ecosystems`
 
-I use GitHub, X, and my portfolio to make technical research visible, understandable, and open to conversation.
+Research → Translate → Publish → Engage
 
-[X / Twitter](https://x.com/MIA03ther) · [GitHub](https://github.com/mia03ther) · [Portfolio](https://mia03ther.github.io/)
+[ X / Twitter ](https://x.com/MIA03ther) · [ GitHub ](https://github.com/mia03ther) · [ Portfolio ](https://mia03ther.github.io/)
 
-## GLOBAL BUILDER
-
-<table>
-<tr><td><code>中文</code></td><td>Native</td></tr>
-<tr><td><code>English</code></td><td>Fluent</td></tr>
-<tr><td><code>日本語</code></td><td>Learning</td></tr>
-</table>
-
-International hackathon experience · English technical research · bilingual content · async Git collaboration
+---
 
 ## NOW
 
 ```text
 BUILDING   AI × Web3 projects
 LEARNING   AI Agents · On-chain Data · Data Systems
-EXPLORING  AI × Finance · Developer Ecosystem
+EXPLORING  AI × Finance · Developer Ecosystems
 ```
 
 ## OFF-CHAIN
 
-`Electronic Music / Composition` &nbsp; `Visual Art / Drawing` &nbsp; `Digital Culture / Anime`
+`Electronic Music / Composition` · `Visual Art / Drawing` · `Digital Culture / Anime`
+
+---
 
 ## EDUCATION
 
-**Guangdong University of Foreign Studies**<br/>
-B.S. Data Management and Data Analytics · `2026–Present`
+**Guangdong University of Foreign Studies**
+
+B.S. in Big Data Management and Applications · `2026–Present`
+
+---
 
 ## SIGNALS
 
-`FLTRP English Competition — Zhejiang Provincial First Prize ×2`<br/>
-`Python Electronics Society Level 4` · `High School Debate — Top Award`
+`FLTRP English Competition — Zhejiang Provincial First Prize ×2`
+
+`Python Electronics Society Level 4`
+
+`High School Debate — Top Award`
+
+---
 
 ## OPEN TO
 
-`AI / Web3 internships` · `Remote collaboration` · `Open-source contribution`<br/>
+`AI / Web3 internships` · `Remote collaboration` · `Open-source contribution`
+
 `Developer Ecosystems` · `Technical Content` · `Builder opportunities`
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
 
 <img src="./assets/footer.svg" alt="Keep building" width="100%" />
 
