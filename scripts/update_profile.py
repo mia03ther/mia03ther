@@ -1,566 +1,246 @@
 #!/usr/bin/env python3
-"""Generate the public builder dashboard SVGs for the MIA_Ether profile repository.
+"""Generate local light/dark profile cards from public GitHub REST data.
 
-Data sources, in order of preference:
-
-1. GitHub GraphQL API (used when a token is available, e.g. GITHUB_TOKEN inside
-   GitHub Actions) to read the real contribution calendar for the last 12 weeks.
-2. Public GitHub REST API, used as a fallback, aggregating public events into
-   weekly buckets.
-
-Only the Python standard library is used.
-
-Usage:
-    python scripts/update_profile.py [--login mia03ther] [--output-dir assets/generated]
-
-Environment:
-    GITHUB_TOKEN / GH_TOKEN   Optional token used for the GraphQL contribution query
-                               and to lift REST rate limits.
-    DASHBOARD_TIMESTAMP        Pins the rendered timestamp (ISO-8601 UTC). Used to
-                               verify byte-for-byte idempotency of the generator.
+Usage: python scripts/update_profile.py [--login mia03ther] [--output-dir assets/generated]
+Optional GITHUB_TOKEN / GH_TOKEN raises the API rate limit. DASHBOARD_TIMESTAMP
+can pin the UTC source timestamp for reproducible rendering. Standard library only.
+All API requests and rendering finish before existing assets are replaced.
 """
-
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import datetime as dt
+from html import escape
 import json
 import os
+from pathlib import Path
+import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
-from pathlib import Path
 
-LOGIN = "mia03ther"
 API = "https://api.github.com"
-GRAPHQL = "https://api.github.com/graphql"
 TIMEOUT = 30
-WEEKS = 12
-SHIP_LOG_ITEMS = 5
-
-BG = "#0b0d10"
-BORDER = "#303740"
-GRID = "#20262d"
-GRID_SOFT = "#1d252b"
-FG = "#f5f2ea"
-MUTED = "#7d8792"
-CYAN = "#63f3e4"
-PURPLE = "#b58cff"
-LIME = "#b7f36b"
-PANEL = "#12171c"
-MONO = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-
-# Event types that represent building rather than passive browsing.
-BUILD_EVENT_TYPES = {
-    "PushEvent",
-    "CreateEvent",
-    "PullRequestEvent",
-    "IssuesEvent",
-    "IssueCommentEvent",
-    "ReleaseEvent",
-    "ForkEvent",
-    "DeleteEvent",
-    "PublicEvent",
-    "MemberEvent",
-    "CommitCommentEvent",
+PAGE_SIZE = 100
+MAX_REPO_PAGES = 100
+THEMES = {
+    "light": dict(bg="#f6f7fb", surface="#ffffff", fg="#20243b", muted="#626b83", line="#e0e4ef", accent="#7165d8"),
+    "dark": dict(bg="#10121b", surface="#171b29", fg="#eef0fb", muted="#a3abc1", line="#2b3044", accent="#aaa0ff"),
 }
+LANGUAGE_COLORS = ["#7165d8", "#4e98be", "#52a391", "#c38a55", "#a877b3", "#8892aa"]
+DARK_LANGUAGE_COLORS = ["#aaa0ff", "#75bce0", "#7bc6b3", "#e3b17e", "#d3a0dc", "#8993ad"]
+FONT = "-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif"
 
 
-# --------------------------------------------------------------------------- #
-# HTTP helpers
-# --------------------------------------------------------------------------- #
-def _token() -> str | None:
-    for name in ("GITHUB_TOKEN", "GH_TOKEN"):
-        value = os.environ.get(name)
-        if value and value.strip():
-            return value.strip()
-    return None
+def integer(value: object, label: str) -> int:
+    if type(value) is not int or value < 0:
+        raise ValueError(f"Invalid nonnegative integer: {label}")
+    return value
 
 
-def _headers(token: str | None) -> dict[str, str]:
-    headers = {
-        "User-Agent": "mia03ther-profile-dashboard",
-        "Accept": "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-    }
+def get_json(path: str, token: str | None) -> object:
+    headers = {"User-Agent": "github-profile-cards", "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
-    return headers
-
-
-def _get_json(url: str, token: str | None) -> object:
-    request = urllib.request.Request(url, headers=_headers(token))
+    request = urllib.request.Request(API + path, headers=headers)
     with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
         return json.loads(response.read().decode("utf-8"))
 
 
-def _post_json(url: str, payload: dict, token: str) -> object:
-    body = json.dumps(payload).encode("utf-8")
-    request = urllib.request.Request(
-        url,
-        data=body,
-        headers={**_headers(token), "Content-Type": "application/json"},
-        method="POST",
-    )
-    with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
-        return json.loads(response.read().decode("utf-8"))
+def fetch_repos(login: str, token: str | None, max_pages: int = MAX_REPO_PAGES) -> list[dict]:
+    """Read every public owned repository; never accept a truncated snapshot."""
+    repos, seen = [], set()
+    for page in range(1, max_pages + 1):
+        batch = get_json(f"/users/{login}/repos?type=owner&per_page={PAGE_SIZE}&sort=full_name&direction=asc&page={page}", token)
+        if not isinstance(batch, list) or len(batch) > PAGE_SIZE:
+            raise ValueError("Invalid repository list response")
+        for repo in batch:
+            if not isinstance(repo, dict):
+                raise ValueError("Invalid repository record")
+            repo_id = integer(repo.get("id"), "repository ID")
+            if repo_id in seen:
+                raise ValueError("Repository pagination changed during collection; retry later")
+            owner = repo.get("owner")
+            if not isinstance(owner, dict) or str(owner.get("login", "")).casefold() != login.casefold():
+                raise ValueError("Unexpected repository owner")
+            if repo.get("private") is not False or type(repo.get("fork")) is not bool:
+                raise ValueError("Expected public repository with fork status")
+            if not isinstance(repo.get("name"), str) or not repo["name"]:
+                raise ValueError("Missing repository name")
+            integer(repo.get("stargazers_count"), "repository stars")
+            seen.add(repo_id)
+            repos.append(repo)
+        if len(batch) < PAGE_SIZE:
+            return repos
+    raise RuntimeError(f"Repository pagination exceeded {max_pages} pages; no cards were updated")
 
 
-def warn(message: str) -> None:
-    print(f"[dashboard] {message}", file=sys.stderr)
-
-
-# --------------------------------------------------------------------------- #
-# Data collection
-# --------------------------------------------------------------------------- #
-def fetch_user(token: str | None) -> dict:
-    data = _get_json(f"{API}/users/{LOGIN}", token)
-    if not isinstance(data, dict):
-        raise RuntimeError("unexpected user payload")
-    return data
-
-
-def fetch_repos(token: str | None) -> list[dict]:
-    repos: list[dict] = []
-    for page in range(1, 4):
-        batch = _get_json(
-            f"{API}/users/{LOGIN}/repos?per_page=100&sort=pushed&page={page}", token
-        )
-        if not isinstance(batch, list) or not batch:
-            break
-        repos.extend(item for item in batch if isinstance(item, dict))
-        if len(batch) < 100:
-            break
-    return repos
-
-
-def _parse_time(value: str) -> dt.datetime:
-    return dt.datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(dt.timezone.utc)
-
-
-def week_starts() -> list[dt.date]:
-    """Monday of each of the last WEEKS weeks, oldest first."""
-    today = dt.datetime.now(dt.timezone.utc).date()
-    this_monday = today - dt.timedelta(days=today.weekday())
-    first = this_monday - dt.timedelta(days=7 * (WEEKS - 1))
-    return [first + dt.timedelta(days=7 * i) for i in range(WEEKS)]
-
-
-def bucket_index(day: dt.date) -> int | None:
-    """Return the week bucket index for a day, or None when out of range."""
-    starts = week_starts()
-    for index, start in enumerate(starts):
-        if start <= day <= start + dt.timedelta(days=6):
-            return index
-    return None
-
-
-def fetch_weekly_activity_rest(token: str | None) -> tuple[list[int], str]:
-    """Bucket public events into ISO weeks for the last WEEKS weeks."""
-    events: list[dict] = []
-    for page in range(1, 4):
-        batch = _get_json(f"{API}/users/{LOGIN}/events/public?per_page=100&page={page}", token)
-        if not isinstance(batch, list) or not batch:
-            break
-        events.extend(item for item in batch if isinstance(item, dict))
-        if len(batch) < 100:
-            break
-        if len(events) >= 300:
-            break
-
-    values = [0] * WEEKS
-    for event in events:
-        if event.get("type") not in BUILD_EVENT_TYPES:
+def fetch_languages(login: str, repos: list[dict], token: str | None) -> tuple[Counter, int, int]:
+    """Sum GitHub language bytes across public nonforks, excluding the profile repo."""
+    total: Counter = Counter()
+    analyzed, with_languages = 0, 0
+    for repo in repos:
+        if repo["fork"] or repo["name"].casefold() == login.casefold():
             continue
-        try:
-            day = _parse_time(str(event["created_at"])).date()
-        except (KeyError, ValueError):
-            continue
-        index = bucket_index(day)
-        if index is not None:
-            values[index] += 1
-
-    return values, "public events (REST)"
-
-
-def fetch_weekly_activity_graphql(token: str) -> tuple[list[int], str] | None:
-    """Read the real contribution calendar and bucket it per week."""
-    end = dt.datetime.now(dt.timezone.utc).date()
-    start = end - dt.timedelta(days=WEEKS * 7 + 7)
-    query = """
-query($login: String!, $from: DateTime!, $to: DateTime!) {
-  user(login: $login) {
-    contributionsCollection(from: $from, to: $to) {
-      contributionCalendar {
-        totalContributions
-        weeks {
-          contributionDays { date contributionCount }
-        }
-      }
-    }
-  }
-}
-"""
-    payload = {
-        "query": query,
-        "variables": {
-            "login": LOGIN,
-            "from": f"{start.isoformat()}T00:00:00Z",
-            "to": f"{end.isoformat()}T23:59:59Z",
-        },
-    }
-    try:
-        result = _post_json(GRAPHQL, payload, token)
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as error:
-        warn(f"GraphQL contribution query failed ({error}); falling back to REST")
-        return None
-
-    if isinstance(result, dict) and result.get("errors"):
-        warn(f"GraphQL returned errors; falling back to REST: {result['errors']}")
-        return None
-
-    weeks = (
-        result.get("data", {})
-        .get("user", {})
-        .get("contributionsCollection", {})
-        .get("contributionCalendar", {})
-        .get("weeks", [])
-        if isinstance(result, dict)
-        else []
-    )
-    if not weeks:
-        return None
-
-    values = [0] * WEEKS
-    for week in weeks:
-        days = [day for day in week.get("contributionDays", []) if isinstance(day, dict)]
-        if not days:
-            continue
-        try:
-            day = dt.date.fromisoformat(str(days[0]["date"]))
-        except (KeyError, ValueError):
-            continue
-        index = bucket_index(day)
-        if index is None:
-            continue
-        values[index] += sum(int(day.get("contributionCount", 0)) for day in days)
-
-    return values, "contribution calendar (GraphQL)"
+        name = urllib.parse.quote(repo["name"], safe="")
+        languages = get_json(f"/repos/{login}/{name}/languages", token)
+        if not isinstance(languages, dict):
+            raise ValueError("Invalid repository language response")
+        for language, amount in languages.items():
+            if not isinstance(language, str) or not language:
+                raise ValueError("Invalid language name")
+            integer(amount, "language bytes")
+        total.update({language: amount for language, amount in languages.items() if amount > 0})
+        analyzed += 1
+        with_languages += any(languages.values())
+    return total, analyzed, with_languages
 
 
-def collect_activity(token: str | None) -> tuple[list[int], str, int]:
-    """Return (weekly values, source label, build events in the last 30 days)."""
-    weekly: list[int] | None = None
-    source = ""
-    if token:
-        graphql = fetch_weekly_activity_graphql(token)
-        if graphql is not None:
-            weekly, source = graphql
-
-    if weekly is None:
-        weekly, source = fetch_weekly_activity_rest(token)
-
-    cutoff = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=30)
-    recent = 0
-    try:
-        batch = _get_json(f"{API}/users/{LOGIN}/events/public?per_page=100", token)
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError):
-        batch = []
-    if isinstance(batch, list):
-        for event in batch:
-            if event.get("type") not in BUILD_EVENT_TYPES:
-                continue
-            try:
-                when = _parse_time(str(event["created_at"]))
-            except (KeyError, ValueError):
-                continue
-            if when >= cutoff:
-                recent += 1
-
-    return weekly, source, recent
+def language_rows(totals: Counter) -> list[tuple[str, int]]:
+    ordered = sorted(totals.items(), key=lambda item: (-item[1], item[0].casefold()))
+    rows = ordered[:5]
+    remainder = sum(amount for _, amount in ordered[5:])
+    if remainder:
+        rows.append(("Other", remainder))
+    return rows
 
 
-# --------------------------------------------------------------------------- #
-# SVG helpers
-# --------------------------------------------------------------------------- #
-def escape(text: object) -> str:
-    value = str(text)
-    return (
-        value.replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace('"', "&quot;")
-    )
+def label(x: float, y: float, value: object, size: int, fill: str, weight: int = 400, anchor: str = "start") -> str:
+    return f'<text x="{x:g}" y="{y:g}" font-family="{FONT}" font-size="{size}" font-weight="{weight}" fill="{fill}" text-anchor="{anchor}">{escape(str(value))}</text>'
 
 
-def mono(size: int, fill: str, weight: str = "400", spacing: str | None = None) -> str:
-    extra = f' letter-spacing="{spacing}"' if spacing else ""
-    return (
-        f'font-family="{MONO}" font-size="{size}" fill="{fill}" '
-        f'font-weight="{weight}"{extra}'
-    )
+def document(height: int, title: str, description: str, theme: dict, body: list[str], width: int = 800) -> str:
+    return "\n".join([
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
+        f'<title id="title">{escape(title)}</title>', f'<desc id="desc">{escape(description)}</desc>',
+        f'<rect width="{width}" height="{height}" rx="18" fill="{theme["bg"]}"/>',
+        f'<rect x="1" y="1" width="{width-2}" height="{height-2}" rx="17" fill="{theme["surface"]}" stroke="{theme["line"]}"/>',
+        *body, "</svg>", "",
+    ])
 
 
-def text(
-    x: float,
-    y: float,
-    content: object,
-    size: int,
-    fill: str,
-    weight: str = "400",
-    anchor: str = "start",
-    spacing: str | None = None,
-) -> str:
-    extra = f' text-anchor="{anchor}"' if anchor != "start" else ""
-    return (
-        f'<text x="{round(x, 2)}" y="{round(y, 2)}" {mono(size, fill, weight, spacing)}'
-        f'{extra}>{escape(content)}</text>'
-    )
+def source_note(y: int, date: str, theme: dict, mobile: bool = False) -> str:
+    return label(22 if mobile else 28, y, f"Source: GitHub REST API · {date} UTC", 12 if mobile else 14, theme["muted"])
 
 
-def svg_document(width: int, height: int, title: str, desc: str, body: str) -> str:
-    return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
-        f'width="{width}" height="{height}" role="img" aria-labelledby="t d">\n'
-        f"<title id=\"t\">{escape(title)}</title>\n"
-        f"<desc id=\"d\">{escape(desc)}</desc>\n"
-        "<defs>\n"
-        '<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">'
-        f'<path d="M32 0H0V32" fill="none" stroke="{GRID_SOFT}" stroke-width="1"/>'
-        "</pattern>\n"
-        '<linearGradient id="sig" x1="0" x2="1">'
-        f'<stop offset="0" stop-color="{CYAN}"/>'
-        f'<stop offset="1" stop-color="{PURPLE}"/>'
-        "</linearGradient>\n"
-        "</defs>\n"
-        f'<rect width="{width}" height="{height}" rx="10" fill="{BG}"/>\n'
-        f'<rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="9" '
-        f'fill="url(#grid)" stroke="{BORDER}"/>\n'
-        f"{body}\n</svg>\n"
-    )
-
-
-def frame(width: int, height: int, label: str, stamp: str, right_label: str) -> str:
-    parts = [
-        text(42, 44, label, 12, MUTED, "400", spacing="2"),
-        text(width - 42, 44, right_label, 11, PURPLE, "400", anchor="end"),
-        f'<path d="M42 62H{width - 42}" stroke="{GRID}"/>',
-        text(42, height - 24, f"GENERATED {stamp}", 11, MUTED),
+def build_stats(login: str, user: dict, repos: list[dict], date: str, theme: dict, mobile: bool = False) -> str:
+    source = [repo for repo in repos if not repo["fork"]]
+    values = [
+        ("Public repos", integer(user.get("public_repos"), "public repositories"), "includes forks"),
+        ("Stars", sum(repo["stargazers_count"] for repo in source), "owned source repos"),
+        ("Followers", integer(user.get("followers"), "followers"), "GitHub followers"),
+        ("Source repos", len(source), "owned · nonforks"),
     ]
-    return "\n".join(parts)
+    description = "; ".join(f"{name}: {value} ({note})" for name, value, note in values)
+    if mobile:
+        body = [label(22, 40, "GitHub at a glance", 22, theme["fg"], 650)]
+        for index, (name, value, note) in enumerate(values):
+            x, y = 22 + (index % 2) * 181, 80 + (index // 2) * 106
+            body.extend([label(x, y, name, 16, theme["muted"]), label(x, y+40, f"{value:,}", 32, theme["accent"], 650), label(x, y+64, note, 12, theme["muted"])])
+        body.extend([f'<path d="M22 272H378" stroke="{theme["line"]}"/>', source_note(300, date, theme, True)])
+        return document(322, f"GitHub statistics for {login}", description, theme, body, 400)
+    body = [label(28, 42, "GitHub at a glance", 24, theme["fg"], 650)]
+    for index, (name, value, note) in enumerate(values):
+        x = 28 + index * 190
+        body.extend([label(x, 87, name, 17, theme["muted"]), label(x, 139, f"{value:,}", 42, theme["accent"], 650), label(x, 166, note, 14, theme["muted"])])
+    body.append(f'<path d="M28 187H772" stroke="{theme["line"]}"/>')
+    body.append(source_note(215, date, theme))
+    return document(236, f"GitHub statistics for {login}", description, theme, body)
 
 
-def short_stamp(moment: dt.datetime) -> str:
-    return moment.strftime("%Y-%m-%d %H:%M UTC")
-
-
-# --------------------------------------------------------------------------- #
-# Cards
-# --------------------------------------------------------------------------- #
-def build_live_builder(
-    user: dict, repos: list[dict], weekly: list[int], activity_source: str, recent: int, stamp: dt.datetime
-) -> str:
-    width, height = 1200, 372
-    owned = [repo for repo in repos if not repo.get("fork")]
-    public_repos = int(user.get("public_repos") or len(owned) or 0)
-    stars = sum(int(repo.get("stargazers_count") or 0) for repo in owned)
-    followers = int(user.get("followers") or 0)
-    total_activity = sum(weekly)
-
-    metrics = [
-        ("REPOSITORIES", public_repos, CYAN, "public"),
-        ("STARS", stars, PURPLE, "owned repos"),
-        ("FOLLOWERS", followers, LIME, "public"),
-        ("ACTIVITY", recent, FG, "build events / 30d"),
-    ]
-
-    body = [frame(width, height, "LIVE BUILDER SIGNAL", short_stamp(stamp), "SYSTEM / 02")]
-    card_width, gap, left = 262, 26, 42
-    top = 92
-    for index, (label, value, colour, note) in enumerate(metrics):
-        x = left + index * (card_width + gap)
-        body.append(
-            f'<rect x="{x}" y="{top}" width="{card_width}" height="130" rx="8" '
-            f'fill="{PANEL}" stroke="{BORDER}"/>'
-        )
-        body.append(f'<rect x="{x}" y="{top}" width="3" height="130" rx="1.5" fill="{colour}"/>')
-        body.append(text(x + 22, top + 34, label, 12, MUTED, "400", spacing="2"))
-        body.append(text(x + 22, top + 94, value, 46, colour, "700"))
-        body.append(text(x + 22, top + 116, note, 11, MUTED))
-
-    rule = top + 158
-    body.append(f'<path d="M42 {rule}H1158" stroke="{GRID}"/>')
-    body.append(text(42, rule + 30, "12-WEEK TOTAL", 12, MUTED, "400", spacing="2"))
-    body.append(text(42, rule + 64, total_activity, 26, CYAN, "700"))
-    body.append(text(146, rule + 64, "contributions", 13, MUTED))
-    body.append(text(470, rule + 64, "SOURCE", 12, MUTED, "400", spacing="2"))
-    body.append(text(540, rule + 64, activity_source, 13, FG))
-    body.append(text(1158, rule + 64, f"github.com/{LOGIN}", 12, MUTED, anchor="end"))
-
-    desc = (
-        f"Live builder signal for {LOGIN}: {public_repos} public repositories, "
-        f"{stars} stars, {followers} followers, {recent} public build events in the last 30 days."
-    )
-    return svg_document(width, height, f"LIVE BUILDER SIGNAL — {LOGIN}", desc, "\n".join(body))
-
-
-def build_activity_chart(weekly: list[int], activity_source: str, stamp: dt.datetime) -> str:
-    width, height = 1200, 400
-    left, right = 96, 1158
-    plot_top, plot_bottom = 118, 300
-
-    labels = [start.strftime("%b %d") for start in week_starts()]
-
-    peak = max(weekly) if weekly else 0
-    ceiling = peak if peak > 0 else 1
-    step = 10 ** (len(str(ceiling)) - 1)
-    top_value = ((ceiling // step) + 1) * step
-
-    def y_for(value: int) -> float:
-        span = plot_bottom - plot_top
-        return plot_bottom - (value / top_value) * span if top_value else plot_bottom
-
-    def x_for(index: int) -> float:
-        if len(weekly) <= 1:
-            return left
-        return left + index * ((right - left) / (len(weekly) - 1))
-
+def build_metrics(login: str, totals: Counter, analyzed: int, with_languages: int, date: str, theme: dict, dark: bool, mobile: bool = False) -> str:
+    rows = language_rows(totals)
+    total = sum(totals.values())
+    colors = DARK_LANGUAGE_COLORS if dark else LANGUAGE_COLORS
+    row_count = max(len(rows), 1)
+    left, right, bar_y, first_row, row_gap = (22, 378, 140, 190, 32) if mobile else (28, 772, 122, 177, 35)
+    bar_width = right - left
+    footer_y = 183 + row_count * row_gap
+    height = footer_y + 58
     body = [
-        frame(
-            width,
-            height,
-            "BUILD ACTIVITY · LAST 12 WEEKS",
-            short_stamp(stamp),
-            "SYSTEM / 03",
-        ),
-        text(42, 86, f"SOURCE {activity_source} · 12-WEEK TOTAL {sum(weekly)}", 12, MUTED),
+        label(28, 42, "Languages across my repositories", 24, theme["fg"], 650),
+        label(28, 72, "Share of GitHub language bytes · public source repos", 16, theme["muted"]),
+        label(28, 97, f"{analyzed} repos analyzed · {with_languages} with language data · profile repo excluded", 14, theme["muted"]),
+        f'<rect x="28" y="122" width="744" height="16" rx="8" fill="{theme["line"]}"/>',
     ]
-
-    for step_index in range(5):
-        value = top_value * step_index // 4
-        y = plot_bottom - (plot_bottom - plot_top) * step_index / 4
-        body.append(f'<path d="M{left} {round(y, 2)}H{right}" stroke="{GRID}"/>')
-        body.append(text(left - 14, round(y + 4, 2), value, 11, MUTED, anchor="end"))
-
-    points = [(round(x_for(i), 2), round(y_for(value), 2)) for i, value in enumerate(weekly)]
-    path = "M" + "L".join(f"{x} {y}" for x, y in points)
-    area = (
-        f"M{points[0][0]} {plot_bottom}L"
-        + "L".join(f"{x} {y}" for x, y in points)
-        + f"L{points[-1][0]} {plot_bottom}Z"
-    )
-
-    body.append(f'<path d="{area}" fill="{CYAN}" fill-opacity="0.06"/>')
-    body.append(f'<path d="{path}" fill="none" stroke="url(#sig)" stroke-width="2.5" stroke-linejoin="round"/>')
-
-    for index, ((x, y), value) in enumerate(zip(points, weekly)):
-        colour = LIME if index == len(weekly) - 1 else CYAN
-        body.append(f'<circle cx="{x}" cy="{y}" r="3.5" fill="{BG}" stroke="{colour}" stroke-width="2"/>')
-        label_x = min(max(x, left + 24), right - 24)
-        body.append(text(label_x, plot_bottom + 26, labels[index], 10, MUTED, anchor="middle"))
-        if index == len(weekly) - 1:
-            body.append(text(x, y - 14, value, 12, LIME, "700", anchor="middle"))
-
-    body.append(text(left, 372, "OLDEST", 11, MUTED, "400", spacing="2"))
-    body.append(text(right, 372, "LATEST", 11, MUTED, "400", anchor="end", spacing="2"))
-
-    desc = (
-        "Line chart of weekly build activity over the last 12 weeks, "
-        f"12-week total {sum(weekly)}, source {activity_source}."
-    )
-    return svg_document(
-        width, height, "BUILD ACTIVITY · LAST 12 WEEKS", desc, "\n".join(body)
-    )
-
-
-def build_ship_log(repos: list[dict], stamp: dt.datetime) -> str:
-    width, height = 1200, 420
-    owned = [
-        repo
-        for repo in repos
-        if not repo.get("fork") and repo.get("name") != LOGIN and repo.get("pushed_at")
-    ]
-    owned.sort(key=lambda repo: repo.get("pushed_at") or "", reverse=True)
-    selected = owned[:SHIP_LOG_ITEMS]
-
-    body = [frame(width, height, "LATEST SHIP", short_stamp(stamp), "SYSTEM / 04")]
-    body.append(text(42, 86, "LATEST PUSHES ON PUBLIC REPOSITORIES", 12, MUTED, "400", spacing="2"))
-
-    body.append(text(1158, 86, "PRIMARY LANGUAGE", 12, MUTED, "400", anchor="end", spacing="2"))
-
-    row_height = 58
-    top = 112
-    for index, repo in enumerate(selected):
-        y = top + index * row_height
-        pushed = _parse_time(str(repo["pushed_at"])).strftime("%Y.%m.%d")
-        name = str(repo.get("name") or "unknown")
-        language = str(repo.get("language") or "—")
-        description = repo.get("description") or ""
-        note = description.strip().replace("\n", " ")
-        if not note:
-            note = "no repository description"
-
-        body.append(f'<rect x="42" y="{y}" width="1116" height="48" rx="6" fill="{PANEL}" stroke="{BORDER}"/>')
-        body.append(text(60, y + 30, pushed, 13, LIME, "700"))
-        body.append(text(158, y + 30, name, 15, FG, "700"))
-        body.append(text(158, y + 45, note[:88], 11, MUTED))
-        body.append(text(1140, y + 30, language, 11, CYAN, anchor="end"))
-
-    if not selected:
-        body.append(text(60, top + 30, "NO PUBLIC PUSH DATA AVAILABLE", 13, MUTED))
-
-    desc = "Latest public repository pushes for " + LOGIN + ": " + (
-        ", ".join(str(repo.get("name")) for repo in selected) or "none"
-    )
-    return svg_document(width, height, "LATEST SHIP", desc, "\n".join(body))
-
-
-# --------------------------------------------------------------------------- #
-# Entry point
-# --------------------------------------------------------------------------- #
-def main() -> int:
-    global LOGIN
-
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--login", default=LOGIN)
-    parser.add_argument("--output-dir", default="assets/generated")
-    args = parser.parse_args()
-
-    LOGIN = args.login
-
-    token = _token()
-    raw_stamp = os.environ.get("DASHBOARD_TIMESTAMP", "").strip()
-    if raw_stamp:
-        stamp = _parse_time(raw_stamp).replace(microsecond=0)
+    if mobile:
+        body = [
+            label(22, 40, "Repository languages", 22, theme["fg"], 650),
+            label(22, 70, "Share of GitHub language bytes", 14, theme["muted"]),
+            label(22, 92, "Public source repos · profile repo excluded", 14, theme["muted"]),
+            label(22, 117, f"{analyzed} repos analyzed · {with_languages} with language data", 12, theme["muted"]),
+            f'<rect x="22" y="140" width="356" height="16" rx="8" fill="{theme["line"]}"/>',
+        ]
+    if total:
+        body.extend([f'<defs><clipPath id="bar"><rect x="{left}" y="{bar_y}" width="{bar_width}" height="16" rx="8"/></clipPath></defs>', '<g clip-path="url(#bar)">'])
+        x = float(left)
+        for index, (_, amount) in enumerate(rows):
+            width = amount / total * bar_width
+            body.append(f'<rect x="{x:.5f}" y="{bar_y}" width="{width:.5f}" height="16" fill="{colors[index]}"/>')
+            x += width
+        body.append('</g>')
+        for index, (name, amount) in enumerate(rows):
+            y = first_row + index * row_gap
+            body.extend([f'<circle cx="{left+7}" cy="{y-6}" r="5" fill="{colors[index]}"/>', label(left+23, y, name, 16 if mobile else 17, theme["fg"]), label(right, y, f"{amount / total:.1%}", 16 if mobile else 17, theme["muted"], anchor="end")])
     else:
-        stamp = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
+        body.append(label(left, first_row, "No language bytes reported." if mobile else "No language bytes reported in the analyzed repositories.", 16 if mobile else 17, theme["muted"]))
+    body.extend([f'<path d="M{left} {footer_y-14}H{right}" stroke="{theme["line"]}"/>', source_note(footer_y+15, date, theme, mobile)])
+    description = f"Language byte share across {analyzed} public owned nonfork repositories; profile repository excluded. " + ("; ".join(f"{name}: {amount / total:.1%}" for name, amount in rows) if total else "No language bytes reported.")
+    return document(height, f"Repository languages for {login}", description, theme, body, 400 if mobile else 800)
 
-    user = fetch_user(token)
-    repos = fetch_repos(token)
-    weekly, source, recent = collect_activity(token)
-    warn(f"activity source: {source}; 12-week total {sum(weekly)}")
 
-    output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    files = {
-        output_dir / "live-builder.svg": build_live_builder(
-            user, repos, weekly, source, recent, stamp
-        ),
-        output_dir / "build-activity.svg": build_activity_chart(weekly, source, stamp),
-        output_dir / "ship-log.svg": build_ship_log(repos, stamp),
-    }
-
-    for path, content in files.items():
-        path.write_text(content, encoding="utf-8", newline="\n")
-        warn(f"wrote {path}")
-
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--login", default="mia03ther")
+    parser.add_argument("--output-dir", type=Path, default=Path("assets/generated"))
+    args = parser.parse_args()
+    if not re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?", args.login):
+        parser.error("--login must be a GitHub username")
+    login = args.login
+    token = next((os.environ[key].strip() for key in ("GITHUB_TOKEN", "GH_TOKEN") if os.environ.get(key, "").strip()), None)
+    raw_stamp = os.environ.get("DASHBOARD_TIMESTAMP", "").strip()
+    stamp = dt.datetime.fromisoformat(raw_stamp.replace("Z", "+00:00")) if raw_stamp else dt.datetime.now(dt.timezone.utc)
+    if stamp.tzinfo is None:
+        raise ValueError("DASHBOARD_TIMESTAMP must include a timezone")
+    date = stamp.astimezone(dt.timezone.utc).strftime("%Y-%m-%d")
+    user = get_json(f"/users/{login}", token)
+    if not isinstance(user, dict):
+        raise ValueError("Invalid user response")
+    repos = fetch_repos(login, token)
+    if integer(user.get("public_repos"), "public repositories") != len(repos):
+        raise RuntimeError("Repository count changed during collection; retry later")
+    totals, analyzed, with_languages = fetch_languages(login, repos, token)
+    assets = {}
+    for name, theme in THEMES.items():
+        assets[f"stats-{name}.svg"] = build_stats(login, user, repos, date, theme)
+        assets[f"metrics-{name}.svg"] = build_metrics(login, totals, analyzed, with_languages, date, theme, name == "dark")
+        assets[f"stats-mobile-{name}.svg"] = build_stats(login, user, repos, date, theme, True)
+        assets[f"metrics-mobile-{name}.svg"] = build_metrics(login, totals, analyzed, with_languages, date, theme, name == "dark", True)
+    # Complete collection and rendering before touching any currently published SVG.
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    staged = []
+    try:
+        for name, content in assets.items():
+            temporary = args.output_dir / f".{name}.tmp"
+            temporary.write_text(content, encoding="utf-8", newline="\n")
+            staged.append((temporary, args.output_dir / name))
+        for temporary, target in staged:
+            temporary.replace(target)
+    finally:
+        for temporary, _ in staged:
+            temporary.unlink(missing_ok=True)
+    print(f"Updated eight cards from {len(repos)} public repos; analyzed {analyzed} source repos.")
     return 0
 
 
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as error:
-        warn(f"GitHub request failed: {error}")
+    except urllib.error.HTTPError as error:
+        print(f"GitHub API returned HTTP {error.code}; existing cards preserved.", file=sys.stderr)
+        raise SystemExit(1)
+    except (urllib.error.URLError, TimeoutError, ValueError, RuntimeError, OSError):
+        print("Profile refresh failed; existing cards preserved. Check API access, rate limits, and response shape.", file=sys.stderr)
         raise SystemExit(1)

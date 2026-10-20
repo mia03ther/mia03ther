@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="236" viewBox="0 0 800 236" role="img" aria-labelledby="title desc">
+<title id="title">GitHub statistics for mia03ther</title>
+<desc id="desc">Public repos: 29 (includes forks); Stars: 12 (owned source repos); Followers: 37 (GitHub followers); Source repos: 16 (owned · nonforks)</desc>
+<rect width="800" height="236" rx="18" fill="#10121b"/>
+<rect x="1" y="1" width="798" height="234" rx="17" fill="#171b29" stroke="#2b3044"/>
+<text x="28" y="42" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="24" font-weight="650" fill="#eef0fb" text-anchor="start">GitHub at a glance</text>
+<text x="28" y="87" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="17" font-weight="400" fill="#a3abc1" text-anchor="start">Public repos</text>
+<text x="28" y="139" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="42" font-weight="650" fill="#aaa0ff" text-anchor="start">29</text>
+<text x="28" y="166" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="14" font-weight="400" fill="#a3abc1" text-anchor="start">includes forks</text>
+<text x="218" y="87" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="17" font-weight="400" fill="#a3abc1" text-anchor="start">Stars</text>
+<text x="218" y="139" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="42" font-weight="650" fill="#aaa0ff" text-anchor="start">12</text>
+<text x="218" y="166" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="14" font-weight="400" fill="#a3abc1" text-anchor="start">owned source repos</text>
+<text x="408" y="87" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="17" font-weight="400" fill="#a3abc1" text-anchor="start">Followers</text>
+<text x="408" y="139" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="42" font-weight="650" fill="#aaa0ff" text-anchor="start">37</text>
+<text x="408" y="166" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="14" font-weight="400" fill="#a3abc1" text-anchor="start">GitHub followers</text>
+<text x="598" y="87" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="17" font-weight="400" fill="#a3abc1" text-anchor="start">Source repos</text>
+<text x="598" y="139" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="42" font-weight="650" fill="#aaa0ff" text-anchor="start">16</text>
+<text x="598" y="166" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="14" font-weight="400" fill="#a3abc1" text-anchor="start">owned · nonforks</text>
+<path d="M28 187H772" stroke="#2b3044"/>
+<text x="28" y="215" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="14" font-weight="400" fill="#a3abc1" text-anchor="start">Source: GitHub REST API · 2026-10-20 UTC</text>
+</svg>
