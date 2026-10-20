@@ -22,15 +22,15 @@
 **Languages & Web**
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=python,ts,js,solidity,html,css,react,nextjs,tailwind&amp;theme=dark&amp;perline=9">
-  <img src="https://skillicons.dev/icons?i=python,ts,js,solidity,html,css,react,nextjs,tailwind&amp;theme=light&amp;perline=9" alt="Python, TypeScript, JavaScript, Solidity, HTML, CSS, React, Next.js and Tailwind CSS" width="360">
+  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=python%2Cts%2Cjs%2Csolidity%2Chtml%2Ccss%2Creact%2Cnextjs%2Ctailwind&amp;theme=dark&amp;perline=9">
+  <img src="https://skillicons.dev/icons?i=python%2Cts%2Cjs%2Csolidity%2Chtml%2Ccss%2Creact%2Cnextjs%2Ctailwind&amp;theme=light&amp;perline=9" alt="Python, TypeScript, JavaScript, Solidity, HTML, CSS, React, Next.js and Tailwind CSS" width="248" height="24">
 </picture>
 
 **Backend & Infrastructure**
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=nodejs,prisma,sqlite,docker,git,githubactions,linux,aws&amp;theme=dark&amp;perline=9">
-  <img src="https://skillicons.dev/icons?i=nodejs,prisma,sqlite,docker,git,githubactions,linux,aws&amp;theme=light&amp;perline=9" alt="Node.js, Prisma, SQLite, Docker, Git, GitHub Actions, Linux and AWS" width="320">
+  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=nodejs%2Cprisma%2Csqlite%2Cdocker%2Cgit%2Cgithubactions%2Clinux%2Caws&amp;theme=dark&amp;perline=9">
+  <img src="https://skillicons.dev/icons?i=nodejs%2Cprisma%2Csqlite%2Cdocker%2Cgit%2Cgithubactions%2Clinux%2Caws&amp;theme=light&amp;perline=9" alt="Node.js, Prisma, SQLite, Docker, Git, GitHub Actions, Linux and AWS" width="220" height="24">
 </picture>
 
 **AI / Web3 / Data**<br>
