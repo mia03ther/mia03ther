@@ -3,7 +3,6 @@ import importlib.util
 from pathlib import Path
 import tempfile
 import unittest
-import xml.etree.ElementTree as ET
 from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location("profile", Path(__file__).with_name("update_profile.py"))
@@ -16,29 +15,6 @@ def repo(identifier, name=None, fork=False):
 
 
 class SnapshotTests(unittest.TestCase):
-    def test_one_snapshot_generates_all_eight_cards(self):
-        with tempfile.TemporaryDirectory() as folder:
-            replies = [{"public_repos": 1, "followers": 2}, [repo(1)], {"Python": 30}]
-            with patch("sys.argv", ["update_profile.py", "--login", "example", "--output-dir", folder]), patch.object(profile, "get_json", side_effect=replies) as request, patch("builtins.print"):
-                self.assertEqual(profile.main(), 0)
-            self.assertEqual(request.call_count, 3)
-            expected = {f"{kind}{mobile}-{theme}.svg" for kind in ("stats", "metrics") for mobile in ("", "-mobile") for theme in ("light", "dark")}
-            self.assertEqual({path.name for path in Path(folder).iterdir()}, expected)
-
-    def test_mobile_cards_have_mobile_width_and_readable_type(self):
-        theme = profile.THEMES["light"]
-        stats = ET.fromstring(profile.build_stats("example", {"public_repos": 1, "followers": 2}, [repo(1)], "2026-10-20", theme, True))
-        metrics = ET.fromstring(profile.build_metrics("example", profile.Counter({"Python": 30}), 1, 1, "2026-10-20", theme, False, True))
-        for card in (stats, metrics):
-            self.assertTrue(card.attrib["viewBox"].startswith("0 0 400 "))
-        text = {item.text: item.attrib for item in stats.findall("{http://www.w3.org/2000/svg}text")}
-        self.assertEqual(text["Public repos"]["font-size"], "16")
-        self.assertEqual(text["Followers"]["y"], "186")
-        self.assertEqual(text["2"]["font-size"], "32")
-        text = {item.text: item.attrib for item in metrics.findall("{http://www.w3.org/2000/svg}text")}
-        self.assertEqual(text["Repository languages"]["font-size"], "22")
-        self.assertEqual(text["Python"]["font-size"], "16")
-
     def test_pagination_reads_beyond_first_page(self):
         with patch.object(profile, "get_json", side_effect=[[repo(i) for i in range(100)], [repo(100)]]):
             self.assertEqual(len(profile.fetch_repos("example", None)), 101)

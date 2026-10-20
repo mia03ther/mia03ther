@@ -1,41 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="245" viewBox="0 0 900 245" role="img" aria-labelledby="title desc">
-  <title id="title">MIA_Ether — Learning by building</title>
-  <desc id="desc">AI, Web3 and Data. An original silver and violet orbital illustration with two slowly moving points; all text remains static.</desc>
-  <defs>
-    <radialGradient id="glow"><stop stop-color="#e3def8" stop-opacity=".7"/><stop offset="1" stop-color="#f6f7fb" stop-opacity="0"/></radialGradient>
-    <linearGradient id="metal" x1=".15" y1="0" x2=".9" y2="1"><stop stop-color="#ffffff"/><stop offset=".5" stop-color="#c3cadf"/><stop offset="1" stop-color="#9ca7c4"/></linearGradient>
-    <linearGradient id="orbit"><stop stop-color="#d8dceb"/><stop offset=".5" stop-color="#7165d8"/><stop offset="1" stop-color="#d8dceb"/></linearGradient>
-    <clipPath id="clip"><rect width="900" height="245" rx="22"/></clipPath>
-  </defs>
-  <style>
-    text {font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    @media (prefers-reduced-motion: reduce) {.drift {display:none}}
-  </style>
-  <g clip-path="url(#clip)">
-    <rect width="900" height="245" rx="22" fill="#f6f7fb"/>
-    <ellipse cx="718" cy="120" rx="240" ry="170" fill="url(#glow)"/>
-    <path d="M40 228H860" fill="none" stroke="#d8dceb" stroke-opacity=".65"/>
-    <text x="40" y="49" fill="#7165d8" font-size="12" font-weight="600" letter-spacing="2.3">LEARNING BY BUILDING</text>
-    <text x="36" y="117" fill="#20243b" font-size="58" font-weight="650" letter-spacing="-2">MIA_Ether</text>
-    <text x="40" y="154" fill="#626b83" font-size="20" letter-spacing=".1">AI × Web3 × Data</text>
-    <text x="40" y="207" fill="#626b83" font-size="12">Guangzhou · GDUFS · Open source</text>
-    <g transform="translate(710 121)">
-      <ellipse rx="126" ry="47" transform="rotate(-30)" fill="none" stroke="url(#orbit)" stroke-width="1.3"/>
-      <ellipse rx="126" ry="47" transform="rotate(38)" fill="none" stroke="#d8dceb" stroke-width="1.3"/>
-      <ellipse rx="49" ry="99" transform="rotate(7)" fill="none" stroke="#d8dceb" stroke-width="1"/>
-      <circle r="37" fill="url(#metal)"/>
-      <circle r="36.5" fill="none" stroke="#ffffff" stroke-opacity=".6"/>
-      <path d="M-15 10V-10L0 3L15-10V10" fill="none" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" opacity=".92"/>
-    </g>
-    <circle cx="603" cy="180" r="3.2" fill="#7165d8"/>
-    <circle cx="807" cy="180" r="2.6" fill="#7165d8" opacity=".55"/>
-    <path d="M824 56v12m-6-6h12" stroke="#7165d8" stroke-width="1.2" opacity=".8"/>
-    <circle cx="579" cy="68" r="1.7" fill="#626b83" opacity=".55"/>
-    <circle class="drift" r="3.2" fill="#7165d8">
-      <animateMotion dur="16s" repeatCount="indefinite" path="M601 184A126 47 -30 1 0 819 58A126 47 -30 1 0 601 184"/>
-    </circle>
-    <circle class="drift" r="2.8" fill="#626b83">
-      <animateMotion dur="21s" repeatCount="indefinite" path="M611 44A126 47 38 1 0 809 198A126 47 38 1 0 611 44"/>
-    </circle>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="140" viewBox="0 0 900 140" role="img" aria-labelledby="title desc">
+<title id="title">MIA_Ether — AI, Web3 and Data</title>
+<desc id="desc">Build, research, ship. An original compact silver and violet orbital banner with subtle motion.</desc>
+<defs>
+<radialGradient id="glow"><stop stop-color="#e3def8" stop-opacity=".7"/><stop offset="1" stop-color="#f6f7fb" stop-opacity="0"/></radialGradient>
+<linearGradient id="metal" x1=".15" y1="0" x2=".9" y2="1"><stop stop-color="#ffffff"/><stop offset=".5" stop-color="#c3cadf"/><stop offset="1" stop-color="#9ca7c4"/></linearGradient>
+<linearGradient id="orbit"><stop stop-color="#d8dceb"/><stop offset=".5" stop-color="#7165d8"/><stop offset="1" stop-color="#d8dceb"/></linearGradient>
+<clipPath id="clip"><rect width="900" height="140" rx="16"/></clipPath>
+</defs>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}@media(prefers-reduced-motion:reduce){.drift{display:none}}</style>
+<g clip-path="url(#clip)">
+<rect width="900" height="140" rx="16" fill="#f6f7fb"/>
+<ellipse cx="756" cy="70" rx="170" ry="110" fill="url(#glow)"/>
+<text x="35" y="30" fill="#7165d8" font-size="10" font-weight="600" letter-spacing="2">BUILD · RESEARCH · SHIP</text>
+<text x="32" y="80" fill="#20243b" font-size="46" font-weight="650" letter-spacing="-1.5">MIA_Ether</text>
+<text x="35" y="111" fill="#626b83" font-size="16">AI × Web3 × Data</text>
+<g transform="translate(756 71) scale(.53)">
+<ellipse rx="126" ry="47" transform="rotate(-30)" fill="none" stroke="url(#orbit)" stroke-width="1.5"/>
+<ellipse rx="126" ry="47" transform="rotate(38)" fill="none" stroke="#d8dceb" stroke-width="1.5"/>
+<ellipse rx="49" ry="99" transform="rotate(7)" fill="none" stroke="#d8dceb" stroke-width="1.2"/>
+<circle r="37" fill="url(#metal)"/><circle r="36.5" fill="none" stroke="#ffffff" stroke-opacity=".6"/>
+<path d="M-15 10V-10L0 3L15-10V10" fill="none" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle class="drift" r="3.8" fill="#7165d8"><animateMotion dur="16s" repeatCount="indefinite" path="M-109 63A126 47 -30 1 0 109-63A126 47 -30 1 0-109 63"/></circle>
+<circle class="drift" r="3.2" fill="#626b83"><animateMotion dur="21s" repeatCount="indefinite" path="M-99-77A126 47 38 1 0 99 77A126 47 38 1 0-99-77"/></circle>
+</g>
+<path d="M850 35v8m-4-4h8" stroke="#7165d8" stroke-width="1" opacity=".8"/>
+<circle cx="671" cy="102" r="1.8" fill="#7165d8" opacity=".6"/>
+</g>
 </svg>

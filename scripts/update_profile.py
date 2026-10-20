@@ -111,84 +111,73 @@ def label(x: float, y: float, value: object, size: int, fill: str, weight: int =
     return f'<text x="{x:g}" y="{y:g}" font-family="{FONT}" font-size="{size}" font-weight="{weight}" fill="{fill}" text-anchor="{anchor}">{escape(str(value))}</text>'
 
 
-def document(height: int, title: str, description: str, theme: dict, body: list[str], width: int = 800) -> str:
+def document(title: str, description: str, theme: dict, body: list[str]) -> str:
     return "\n".join([
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
+        '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200" role="img" aria-labelledby="title desc">',
         f'<title id="title">{escape(title)}</title>', f'<desc id="desc">{escape(description)}</desc>',
-        f'<rect width="{width}" height="{height}" rx="18" fill="{theme["bg"]}"/>',
-        f'<rect x="1" y="1" width="{width-2}" height="{height-2}" rx="17" fill="{theme["surface"]}" stroke="{theme["line"]}"/>',
+        f'<rect width="400" height="200" rx="14" fill="{theme["bg"]}"/>',
+        f'<rect x="1" y="1" width="398" height="198" rx="13" fill="{theme["surface"]}" stroke="{theme["line"]}"/>',
         *body, "</svg>", "",
     ])
 
 
-def source_note(y: int, date: str, theme: dict, mobile: bool = False) -> str:
-    return label(22 if mobile else 28, y, f"Source: GitHub REST API · {date} UTC", 12 if mobile else 14, theme["muted"])
+def source_note(date: str, theme: dict) -> str:
+    return label(20, 190, f"GitHub REST API · {date} UTC", 11, theme["muted"])
 
 
-def build_stats(login: str, user: dict, repos: list[dict], date: str, theme: dict, mobile: bool = False) -> str:
+def build_stats(login: str, user: dict, repos: list[dict], date: str, theme: dict) -> str:
     source = [repo for repo in repos if not repo["fork"]]
     values = [
         ("Public repos", integer(user.get("public_repos"), "public repositories"), "includes forks"),
-        ("Stars", sum(repo["stargazers_count"] for repo in source), "owned source repos"),
+        ("Stars (source)", sum(repo["stargazers_count"] for repo in source), "owned nonfork repos"),
         ("Followers", integer(user.get("followers"), "followers"), "GitHub followers"),
-        ("Source repos", len(source), "owned · nonforks"),
+        ("Source repos", len(source), "owned nonfork repos"),
     ]
+    body = [label(20, 29, "GitHub at a glance", 18, theme["fg"], 650)]
+    for index, (name, value, _) in enumerate(values):
+        x, y = 20 + (index % 2) * 192, 57 + (index // 2) * 59
+        body.extend([label(x, y, name, 14, theme["muted"]), label(x, y+29, f"{value:,}", 26, theme["accent"], 650)])
+    body.extend([
+        f'<path d="M20 158H380" stroke="{theme["line"]}"/>',
+        label(20, 175, "Public includes forks · source = owned nonforks", 11, theme["muted"]),
+        source_note(date, theme),
+    ])
     description = "; ".join(f"{name}: {value} ({note})" for name, value, note in values)
-    if mobile:
-        body = [label(22, 40, "GitHub at a glance", 22, theme["fg"], 650)]
-        for index, (name, value, note) in enumerate(values):
-            x, y = 22 + (index % 2) * 181, 80 + (index // 2) * 106
-            body.extend([label(x, y, name, 16, theme["muted"]), label(x, y+40, f"{value:,}", 32, theme["accent"], 650), label(x, y+64, note, 12, theme["muted"])])
-        body.extend([f'<path d="M22 272H378" stroke="{theme["line"]}"/>', source_note(300, date, theme, True)])
-        return document(322, f"GitHub statistics for {login}", description, theme, body, 400)
-    body = [label(28, 42, "GitHub at a glance", 24, theme["fg"], 650)]
-    for index, (name, value, note) in enumerate(values):
-        x = 28 + index * 190
-        body.extend([label(x, 87, name, 17, theme["muted"]), label(x, 139, f"{value:,}", 42, theme["accent"], 650), label(x, 166, note, 14, theme["muted"])])
-    body.append(f'<path d="M28 187H772" stroke="{theme["line"]}"/>')
-    body.append(source_note(215, date, theme))
-    return document(236, f"GitHub statistics for {login}", description, theme, body)
+    return document(f"GitHub statistics for {login}", description, theme, body)
 
 
-def build_metrics(login: str, totals: Counter, analyzed: int, with_languages: int, date: str, theme: dict, dark: bool, mobile: bool = False) -> str:
+def build_metrics(login: str, totals: Counter, analyzed: int, with_languages: int, date: str, theme: dict, dark: bool) -> str:
     rows = language_rows(totals)
     total = sum(totals.values())
     colors = DARK_LANGUAGE_COLORS if dark else LANGUAGE_COLORS
-    row_count = max(len(rows), 1)
-    left, right, bar_y, first_row, row_gap = (22, 378, 140, 190, 32) if mobile else (28, 772, 122, 177, 35)
-    bar_width = right - left
-    footer_y = 183 + row_count * row_gap
-    height = footer_y + 58
     body = [
-        label(28, 42, "Languages across my repositories", 24, theme["fg"], 650),
-        label(28, 72, "Share of GitHub language bytes · public source repos", 16, theme["muted"]),
-        label(28, 97, f"{analyzed} repos analyzed · {with_languages} with language data · profile repo excluded", 14, theme["muted"]),
-        f'<rect x="28" y="122" width="744" height="16" rx="8" fill="{theme["line"]}"/>',
+        label(20, 29, "Repository languages", 18, theme["fg"], 650),
+        f'<rect x="20" y="43" width="360" height="12" rx="6" fill="{theme["line"]}"/>',
     ]
-    if mobile:
-        body = [
-            label(22, 40, "Repository languages", 22, theme["fg"], 650),
-            label(22, 70, "Share of GitHub language bytes", 14, theme["muted"]),
-            label(22, 92, "Public source repos · profile repo excluded", 14, theme["muted"]),
-            label(22, 117, f"{analyzed} repos analyzed · {with_languages} with language data", 12, theme["muted"]),
-            f'<rect x="22" y="140" width="356" height="16" rx="8" fill="{theme["line"]}"/>',
-        ]
     if total:
-        body.extend([f'<defs><clipPath id="bar"><rect x="{left}" y="{bar_y}" width="{bar_width}" height="16" rx="8"/></clipPath></defs>', '<g clip-path="url(#bar)">'])
-        x = float(left)
+        body.extend(['<defs><clipPath id="bar"><rect x="20" y="43" width="360" height="12" rx="6"/></clipPath></defs>', '<g clip-path="url(#bar)">'])
+        x = 20.0
         for index, (_, amount) in enumerate(rows):
-            width = amount / total * bar_width
-            body.append(f'<rect x="{x:.5f}" y="{bar_y}" width="{width:.5f}" height="16" fill="{colors[index]}"/>')
+            width = amount / total * 360
+            body.append(f'<rect x="{x:.5f}" y="43" width="{width:.5f}" height="12" fill="{colors[index]}"/>')
             x += width
         body.append('</g>')
         for index, (name, amount) in enumerate(rows):
-            y = first_row + index * row_gap
-            body.extend([f'<circle cx="{left+7}" cy="{y-6}" r="5" fill="{colors[index]}"/>', label(left+23, y, name, 16 if mobile else 17, theme["fg"]), label(right, y, f"{amount / total:.1%}", 16 if mobile else 17, theme["muted"], anchor="end")])
+            x, y = 20 + (index % 2) * 192, 82 + (index // 2) * 29
+            body.extend([
+                f'<circle cx="{x+4}" cy="{y-4}" r="4" fill="{colors[index]}"/>',
+                label(x+15, y, name, 13, theme["fg"]),
+                label(x+168, y, f"{amount / total:.1%}", 13, theme["muted"], anchor="end"),
+            ])
     else:
-        body.append(label(left, first_row, "No language bytes reported." if mobile else "No language bytes reported in the analyzed repositories.", 16 if mobile else 17, theme["muted"]))
-    body.extend([f'<path d="M{left} {footer_y-14}H{right}" stroke="{theme["line"]}"/>', source_note(footer_y+15, date, theme, mobile)])
-    description = f"Language byte share across {analyzed} public owned nonfork repositories; profile repository excluded. " + ("; ".join(f"{name}: {amount / total:.1%}" for name, amount in rows) if total else "No language bytes reported.")
-    return document(height, f"Repository languages for {login}", description, theme, body, 400 if mobile else 800)
+        body.append(label(20, 91, "No language bytes reported.", 14, theme["muted"]))
+    body.extend([
+        f'<path d="M20 158H380" stroke="{theme["line"]}"/>',
+        label(20, 175, f"{analyzed} public source repos · profile excluded · byte share", 11, theme["muted"]),
+        source_note(date, theme),
+    ])
+    description = f"Language byte share across {analyzed} public owned nonfork repositories ({with_languages} with language data); profile repository excluded. " + ("; ".join(f"{name}: {amount / total:.1%}" for name, amount in rows) if total else "No language bytes reported.")
+    return document(f"Repository languages for {login}", description, theme, body)
 
 
 def main() -> int:
@@ -216,8 +205,6 @@ def main() -> int:
     for name, theme in THEMES.items():
         assets[f"stats-{name}.svg"] = build_stats(login, user, repos, date, theme)
         assets[f"metrics-{name}.svg"] = build_metrics(login, totals, analyzed, with_languages, date, theme, name == "dark")
-        assets[f"stats-mobile-{name}.svg"] = build_stats(login, user, repos, date, theme, True)
-        assets[f"metrics-mobile-{name}.svg"] = build_metrics(login, totals, analyzed, with_languages, date, theme, name == "dark", True)
     # Complete collection and rendering before touching any currently published SVG.
     args.output_dir.mkdir(parents=True, exist_ok=True)
     staged = []
@@ -231,7 +218,7 @@ def main() -> int:
     finally:
         for temporary, _ in staged:
             temporary.unlink(missing_ok=True)
-    print(f"Updated eight cards from {len(repos)} public repos; analyzed {analyzed} source repos.")
+    print(f"Updated four cards from {len(repos)} public repos; analyzed {analyzed} source repos.")
     return 0
 
 
