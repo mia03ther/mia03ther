@@ -266,7 +266,7 @@ OPERATING  Open-source contribution · technical writing · public builds
 
 **Guangdong University of Foreign Studies**
 
-B.S. in Big Data Management and Applications · `2026–Present`
+Bachelor of Science · Interdisciplinary Computing, Data & AI · `2026–Present`
 
 ---
 
