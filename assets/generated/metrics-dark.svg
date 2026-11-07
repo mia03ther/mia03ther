@@ -1,38 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200" role="img" aria-labelledby="title desc">
 <title id="title">Repository languages for mia03ther</title>
-<desc id="desc">Language byte share across 16 public owned nonfork repositories (13 with language data); profile repository excluded. TypeScript: 66.9%; Python: 20.4%; JavaScript: 5.6%; CSS: 3.5%; HTML: 2.6%; Other: 1.1%</desc>
+<desc id="desc">Language byte share across 17 public owned nonfork repositories (14 with language data); profile repository excluded. JavaScript: 68.3%; TypeScript: 17.4%; PLpgSQL: 5.5%; Python: 5.3%; CSS: 2.3%; Other: 1.0%</desc>
 <rect width="400" height="200" rx="14" fill="#10121b"/>
 <rect x="1" y="1" width="398" height="198" rx="13" fill="#171b29" stroke="#2b3044"/>
 <text x="20" y="29" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="650" fill="#eef0fb" text-anchor="start">Repository languages</text>
 <rect x="20" y="43" width="360" height="12" rx="6" fill="#2b3044"/>
 <defs><clipPath id="bar"><rect x="20" y="43" width="360" height="12" rx="6"/></clipPath></defs>
 <g clip-path="url(#bar)">
-<rect x="20.00000" y="43" width="240.86579" height="12" fill="#aaa0ff"/>
-<rect x="260.86579" y="43" width="73.26766" height="12" fill="#75bce0"/>
-<rect x="334.13345" y="43" width="20.00847" height="12" fill="#7bc6b3"/>
-<rect x="354.14191" y="43" width="12.56282" height="12" fill="#e3b17e"/>
-<rect x="366.70473" y="43" width="9.33843" height="12" fill="#d3a0dc"/>
-<rect x="376.04316" y="43" width="3.95684" height="12" fill="#8993ad"/>
+<rect x="20.00000" y="43" width="246.04705" height="12" fill="#aaa0ff"/>
+<rect x="266.04705" y="43" width="62.73868" height="12" fill="#75bce0"/>
+<rect x="328.78573" y="43" width="19.94400" height="12" fill="#7bc6b3"/>
+<rect x="348.72973" y="43" width="19.08414" height="12" fill="#e3b17e"/>
+<rect x="367.81387" y="43" width="8.41477" height="12" fill="#d3a0dc"/>
+<rect x="376.22864" y="43" width="3.77136" height="12" fill="#8993ad"/>
 </g>
 <circle cx="24" cy="78" r="4" fill="#aaa0ff"/>
-<text x="35" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">TypeScript</text>
-<text x="188" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">66.9%</text>
+<text x="35" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">JavaScript</text>
+<text x="188" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">68.3%</text>
 <circle cx="216" cy="78" r="4" fill="#75bce0"/>
-<text x="227" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">Python</text>
-<text x="380" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">20.4%</text>
+<text x="227" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">TypeScript</text>
+<text x="380" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">17.4%</text>
 <circle cx="24" cy="107" r="4" fill="#7bc6b3"/>
-<text x="35" y="111" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">JavaScript</text>
-<text x="188" y="111" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">5.6%</text>
+<text x="35" y="111" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">PLpgSQL</text>
+<text x="188" y="111" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">5.5%</text>
 <circle cx="216" cy="107" r="4" fill="#e3b17e"/>
-<text x="227" y="111" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">CSS</text>
-<text x="380" y="111" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">3.5%</text>
+<text x="227" y="111" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">Python</text>
+<text x="380" y="111" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">5.3%</text>
 <circle cx="24" cy="136" r="4" fill="#d3a0dc"/>
-<text x="35" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">HTML</text>
-<text x="188" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">2.6%</text>
+<text x="35" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">CSS</text>
+<text x="188" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">2.3%</text>
 <circle cx="216" cy="136" r="4" fill="#8993ad"/>
 <text x="227" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">Other</text>
-<text x="380" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">1.1%</text>
+<text x="380" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">1.0%</text>
 <path d="M20 158H380" stroke="#2b3044"/>
-<text x="20" y="175" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">16 public source repos · profile excluded · byte share</text>
-<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">GitHub REST API · 2026-11-06 UTC</text>
+<text x="20" y="175" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">17 public source repos · profile excluded · byte share</text>
+<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">GitHub REST API · 2026-11-07 UTC</text>
 </svg>
