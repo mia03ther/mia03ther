@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200" role="img" aria-labelledby="title desc">
 <title id="title">Repository languages for mia03ther</title>
-<desc id="desc">Language byte share across 17 public owned nonfork repositories (14 with language data); profile repository excluded. JavaScript: 67.5%; TypeScript: 16.6%; Python: 6.5%; PLpgSQL: 5.3%; CSS: 2.8%; Other: 1.4%</desc>
+<desc id="desc">Language byte share across 18 public owned nonfork repositories (14 with language data); profile repository excluded. JavaScript: 67.5%; TypeScript: 16.6%; Python: 6.5%; PLpgSQL: 5.3%; CSS: 2.8%; Other: 1.4%</desc>
 <rect width="400" height="200" rx="14" fill="#10121b"/>
 <rect x="1" y="1" width="398" height="198" rx="13" fill="#171b29" stroke="#2b3044"/>
 <text x="20" y="29" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="650" fill="#eef0fb" text-anchor="start">Repository languages</text>
@@ -33,6 +33,6 @@
 <text x="227" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">Other</text>
 <text x="380" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">1.4%</text>
 <path d="M20 158H380" stroke="#2b3044"/>
-<text x="20" y="175" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">17 public source repos · profile excluded · byte share</text>
-<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">GitHub REST API · 2026-11-16 UTC</text>
+<text x="20" y="175" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">18 public source repos · profile excluded · byte share</text>
+<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">GitHub REST API · 2026-11-17 UTC</text>
 </svg>
