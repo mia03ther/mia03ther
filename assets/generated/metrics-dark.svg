@@ -7,12 +7,12 @@
 <rect x="20" y="43" width="360" height="12" rx="6" fill="#2b3044"/>
 <defs><clipPath id="bar"><rect x="20" y="43" width="360" height="12" rx="6"/></clipPath></defs>
 <g clip-path="url(#bar)">
-<rect x="20.00000" y="43" width="157.80365" height="12" fill="#aaa0ff"/>
-<rect x="177.80365" y="43" width="142.10267" height="12" fill="#75bce0"/>
-<rect x="319.90632" y="43" width="22.55746" height="12" fill="#7bc6b3"/>
-<rect x="342.46378" y="43" width="16.77791" height="12" fill="#e3b17e"/>
-<rect x="359.24169" y="43" width="9.05441" height="12" fill="#d3a0dc"/>
-<rect x="368.29610" y="43" width="11.70390" height="12" fill="#8993ad"/>
+<rect x="20.00000" y="43" width="157.77675" height="12" fill="#aaa0ff"/>
+<rect x="177.77675" y="43" width="142.13077" height="12" fill="#75bce0"/>
+<rect x="319.90752" y="43" width="22.55362" height="12" fill="#7bc6b3"/>
+<rect x="342.46114" y="43" width="16.77505" height="12" fill="#e3b17e"/>
+<rect x="359.23618" y="43" width="9.05287" height="12" fill="#d3a0dc"/>
+<rect x="368.28905" y="43" width="11.71095" height="12" fill="#8993ad"/>
 </g>
 <circle cx="24" cy="78" r="4" fill="#aaa0ff"/>
 <text x="35" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#eef0fb" text-anchor="start">JavaScript</text>
@@ -34,5 +34,5 @@
 <text x="380" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#a3abc1" text-anchor="end">3.3%</text>
 <path d="M20 158H380" stroke="#2b3044"/>
 <text x="20" y="175" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">19 public source repos · profile excluded · byte share</text>
-<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">GitHub REST API · 2026-11-19 UTC</text>
+<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#a3abc1" text-anchor="start">GitHub REST API · 2026-11-20 UTC</text>
 </svg>
