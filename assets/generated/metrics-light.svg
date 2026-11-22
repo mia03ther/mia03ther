@@ -7,11 +7,11 @@
 <rect x="20" y="43" width="360" height="12" rx="6" fill="#e0e4ef"/>
 <defs><clipPath id="bar"><rect x="20" y="43" width="360" height="12" rx="6"/></clipPath></defs>
 <g clip-path="url(#bar)">
-<rect x="20.00000" y="43" width="157.39417" height="12" fill="#7165d8"/>
-<rect x="177.39417" y="43" width="142.64492" height="12" fill="#4e98be"/>
-<rect x="320.03909" y="43" width="21.99174" height="12" fill="#52a391"/>
-<rect x="342.03083" y="43" width="16.35713" height="12" fill="#c38a55"/>
-<rect x="358.38796" y="43" width="9.31326" height="12" fill="#a877b3"/>
+<rect x="20.00000" y="43" width="157.39418" height="12" fill="#7165d8"/>
+<rect x="177.39418" y="43" width="142.64493" height="12" fill="#4e98be"/>
+<rect x="320.03911" y="43" width="21.99174" height="12" fill="#52a391"/>
+<rect x="342.03085" y="43" width="16.35713" height="12" fill="#c38a55"/>
+<rect x="358.38798" y="43" width="9.31323" height="12" fill="#a877b3"/>
 <rect x="367.70122" y="43" width="12.29878" height="12" fill="#8892aa"/>
 </g>
 <circle cx="24" cy="78" r="4" fill="#7165d8"/>
@@ -34,5 +34,5 @@
 <text x="380" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#626b83" text-anchor="end">3.4%</text>
 <path d="M20 158H380" stroke="#e0e4ef"/>
 <text x="20" y="175" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#626b83" text-anchor="start">20 public source repos · profile excluded · byte share</text>
-<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#626b83" text-anchor="start">GitHub REST API · 2026-11-21 UTC</text>
+<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#626b83" text-anchor="start">GitHub REST API · 2026-11-22 UTC</text>
 </svg>
