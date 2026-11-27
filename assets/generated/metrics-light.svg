@@ -1,18 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200" role="img" aria-labelledby="title desc">
 <title id="title">Repository languages for mia03ther</title>
-<desc id="desc">Language byte share across 22 public owned nonfork repositories (19 with language data); profile repository excluded. JavaScript: 40.2%; Python: 31.9%; TypeScript: 17.6%; Vue: 4.9%; HTML: 2.1%; Other: 3.2%</desc>
+<desc id="desc">Language byte share across 23 public owned nonfork repositories (20 with language data); profile repository excluded. JavaScript: 40.2%; Python: 31.9%; TypeScript: 17.6%; Vue: 4.9%; HTML: 2.1%; Other: 3.2%</desc>
 <rect width="400" height="200" rx="14" fill="#f6f7fb"/>
 <rect x="1" y="1" width="398" height="198" rx="13" fill="#ffffff" stroke="#e0e4ef"/>
 <text x="20" y="29" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="18" font-weight="650" fill="#20243b" text-anchor="start">Repository languages</text>
 <rect x="20" y="43" width="360" height="12" rx="6" fill="#e0e4ef"/>
 <defs><clipPath id="bar"><rect x="20" y="43" width="360" height="12" rx="6"/></clipPath></defs>
 <g clip-path="url(#bar)">
-<rect x="20.00000" y="43" width="144.71721" height="12" fill="#7165d8"/>
-<rect x="164.71721" y="43" width="114.93899" height="12" fill="#4e98be"/>
-<rect x="279.65621" y="43" width="63.52456" height="12" fill="#52a391"/>
-<rect x="343.18077" y="43" width="17.69978" height="12" fill="#c38a55"/>
-<rect x="360.88054" y="43" width="7.61949" height="12" fill="#a877b3"/>
-<rect x="368.50004" y="43" width="11.49996" height="12" fill="#8892aa"/>
+<rect x="20.00000" y="43" width="144.65850" height="12" fill="#7165d8"/>
+<rect x="164.65850" y="43" width="114.93252" height="12" fill="#4e98be"/>
+<rect x="279.59102" y="43" width="63.50715" height="12" fill="#52a391"/>
+<rect x="343.09817" y="43" width="17.69260" height="12" fill="#c38a55"/>
+<rect x="360.79076" y="43" width="7.61640" height="12" fill="#a877b3"/>
+<rect x="368.40717" y="43" width="11.59283" height="12" fill="#8892aa"/>
 </g>
 <circle cx="24" cy="78" r="4" fill="#7165d8"/>
 <text x="35" y="82" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#20243b" text-anchor="start">JavaScript</text>
@@ -33,6 +33,6 @@
 <text x="227" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#20243b" text-anchor="start">Other</text>
 <text x="380" y="140" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="13" font-weight="400" fill="#626b83" text-anchor="end">3.2%</text>
 <path d="M20 158H380" stroke="#e0e4ef"/>
-<text x="20" y="175" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#626b83" text-anchor="start">22 public source repos · profile excluded · byte share</text>
-<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#626b83" text-anchor="start">GitHub REST API · 2026-11-26 UTC</text>
+<text x="20" y="175" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#626b83" text-anchor="start">23 public source repos · profile excluded · byte share</text>
+<text x="20" y="190" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="11" font-weight="400" fill="#626b83" text-anchor="start">GitHub REST API · 2026-11-27 UTC</text>
 </svg>
